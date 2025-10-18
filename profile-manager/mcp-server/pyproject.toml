@@ -3,5 +3,12 @@ name = "profile_mcp"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "aiogremlin>=3.3.4",
+    "gremlinpython>=3.4.3",
     "mcp[cli]>=1.13.1",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.1",
 ]
