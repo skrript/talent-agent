@@ -1,24 +1,23 @@
 import asyncio
 import logging
-from typing import Self, Any
+from typing import Self, Any, Callable
 from dataclasses import dataclass
 
 from aiogremlin import DriverRemoteConnection, Cluster
 from aiogremlin.driver.client import Client
 from gremlin_python.process.anonymous_traversal import traversal
 from gremlin_python.process.graph_traversal import GraphTraversalSource
-from gremlin_python.process.traversal import T
 from gremlin_python.process.traversal import __
 
-from .base import GraphDB
+from .base import GraphDB, GremlinQueryInterface, GraphOperationsInterface
 
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class NeptuneClient(GraphDB):
-    """AWS Neptune implementation of the GraphDB interface."""
+class NeptuneClient(GraphDB, GremlinQueryInterface, GraphOperationsInterface):
+    """AWS Neptune implementation supporting Gremlin queries and graph operations."""
 
     endpoint: str
     port: int = 8182
@@ -158,7 +157,9 @@ class NeptuneClient(GraphDB):
             logger.error(f"Error executing query: {e}")
             raise
 
-    async def execute_traversal(self, traversal_lambda) -> list[dict[str, Any]]:
+    async def execute_traversal(
+        self, traversal_lambda: Callable[[Any], Any]
+    ) -> list[dict[str, Any]]:
         """
         Execute a Gremlin traversal using the graph traversal source.
 
