@@ -7,7 +7,7 @@ from aiogremlin import DriverRemoteConnection, Cluster
 from aiogremlin.driver.client import Client
 from gremlin_python.process.anonymous_traversal import traversal
 from gremlin_python.process.graph_traversal import GraphTraversalSource
-from gremlin_python.process.traversal import __
+from gremlin_python.process.graph_traversal import __
 
 from .base import GraphDB, GremlinQueryInterface, GraphOperationsInterface
 
